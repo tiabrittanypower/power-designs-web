@@ -1,0 +1,116 @@
+# Power Designs Web — Hostinger / Apache static hosting
+# Copy this file to the deploy package root as `.htaccess` (public_html).
+# Replaces Netlify redirects + headers from netlify.toml.
+# Requires: mod_rewrite, mod_headers, mod_expires (typical on Hostinger shared).
+
+# -----------------------------------------------------------------------------
+# HTTPS + basic rewrite engine
+# -----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force HTTPS (Hostinger SSL). Safe if already on HTTPS.
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Canonical: /index.html → /
+  RewriteRule ^index\.html$ / [L,R=301]
+
+  # Soft alias: /home → /
+  RewriteRule ^home/?$ / [L,R=301]
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Block operator / tooling paths if ever uploaded by mistake
+# (Preferred: do not upload these folders at all.)
+# -----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteRule ^launch-dashboard(/|$) - [R=404,L]
+  RewriteRule ^tools(/|$) - [R=404,L]
+  RewriteRule ^blog-workspace(/|$) - [R=404,L]
+  RewriteRule ^social-content-creator(/|$) - [R=404,L]
+  RewriteRule ^node_modules(/|$) - [R=404,L]
+  RewriteRule ^scripts(/|$) - [R=404,L]
+  RewriteRule ^brand-kit(/|$) - [R=404,L]
+  RewriteRule ^docs(/|$) - [R=404,L]
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Security headers (all responses)
+# CSP mirrors netlify.toml — FormSubmit, GA/GTM, Facebook, Google Fonts, calendars
+# -----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header set X-XSS-Protection "0"
+  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; connect-src 'self' https: https://formsubmit.co https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.facebook.com https://*.facebook.net; frame-src 'self' https://www.facebook.com https://connect.facebook.net; frame-ancestors 'self'; base-uri 'self'; form-action 'self' mailto: https://wa.me https://formsubmit.co https://calendar.app.google https://calendar.google.com"
+
+  # HSTS — enable only after HTTPS is stable on the final domain
+  # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Caching: assets (1 year, immutable), CSS/JS (7 days)
+# -----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  <IfModule mod_setenvif.c>
+    SetEnvIf Request_URI "^/assets/" ASSET_CACHE
+    Header set Cache-Control "public, max-age=31536000, immutable" env=ASSET_CACHE
+  </IfModule>
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.(js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
+# Optional expires (if mod_expires available)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/javascript "access plus 7 days"
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Sitemaps + robots: correct type, no long cache (crawlers)
+# -----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  <FilesMatch "^(sitemap\.xml|sitemap-pages\.xml)$">
+    Header set Content-Type "application/xml; charset=UTF-8"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+    Header set Content-Security-Policy "default-src 'none'"
+  </FilesMatch>
+  <FilesMatch "^(sitemap\.txt|robots\.txt)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  <Files "robots.txt">
+    Header set Content-Type "text/plain; charset=UTF-8"
+  </Files>
+  <Files "sitemap.txt">
+    Header set Content-Type "text/plain; charset=UTF-8"
+  </Files>
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Deny access to dotfiles except .htaccess itself (Apache still uses it)
+# -----------------------------------------------------------------------------
+<IfModule mod_authz_core.c>
+  <FilesMatch "^\.(?!htaccess$)">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+# MultiViews can confuse extensionless requests — static multipage site is fine either way
+Options -Indexes
+# Options -MultiViews

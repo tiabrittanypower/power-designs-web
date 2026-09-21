@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title">
+  <title id="title">Power Designs Web P monogram</title>
+  <rect x="4" y="4" width="112" height="112" rx="34" fill="#071A3D"/>
+  <circle cx="92" cy="28" r="13" fill="#F6B73C"/>
+  <path d="M34 88V30h29c19 0 30 10 30 26S82 82 63 82H51V69h12c10 0 15-4 15-13 0-8-5-12-15-12H49v44H34Z" fill="#FFFFFF"/>
+  <path d="M72 78h19v18L72 78Z" fill="#2F74FF"/>
+  <circle cx="24" cy="23" r="3.5" fill="#2F74FF"/>
+  <circle cx="35" cy="23" r="3.5" fill="#F6B73C"/>
+</svg>
