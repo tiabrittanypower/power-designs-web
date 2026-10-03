@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wayfinder — Travel Agent</title>
+  <meta name="description" content="Plan a trip in seconds: day-by-day itinerary, budget estimate and packing list.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>✈️ Wayfinder</h1>
+      <p>Your personal travel agent. Tell me where, when and what you love.</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <aside>
+      <form id="form" class="card" novalidate>
+        <h2>Plan a trip</h2>
+
+        <label for="destination">Destination</label>
+        <input id="destination" list="destList" placeholder="e.g. Cape Town" autocomplete="off" required>
+        <datalist id="destList"></datalist>
+        <div id="quick" class="pills" aria-label="Popular destinations"></div>
+
+        <div class="row">
+          <div><label for="start">Start</label><input id="start" type="date" required></div>
+          <div><label for="end">End</label><input id="end" type="date" required></div>
+        </div>
+
+        <div class="row">
+          <div><label for="travelers">Travelers</label><input id="travelers" type="number" min="1" max="10" value="2"></div>
+          <div><label for="budget">Budget (USD, optional)</label><input id="budget" type="number" min="0" step="100" placeholder="3000"></div>
+        </div>
+
+        <label for="style">Travel style</label>
+        <select id="style">
+          <option value="budget">Budget</option>
+          <option value="comfort" selected>Comfort</option>
+          <option value="luxury">Luxury</option>
+        </select>
+
+        <fieldset>
+          <legend>Interests <span class="muted small">(pick any)</span></legend>
+          <div id="interests" class="chips"></div>
+        </fieldset>
+
+        <p id="error" class="error" role="alert"></p>
+        <button class="btn block" type="submit">Build my itinerary</button>
+      </form>
+
+      <section class="card">
+        <h2>Saved trips</h2>
+        <div id="saved"></div>
+      </section>
+    </aside>
+
+    <section class="result">
+      <div id="empty" class="card empty">
+        <div class="big-emoji" aria-hidden="true">🧭</div>
+        <h2>Where to next?</h2>
+        <p class="muted">Fill in the form and I'll build a day-by-day plan, a budget estimate, local tips and a packing checklist.</p>
+      </div>
+      <div id="plan" class="card" hidden></div>
+    </section>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
