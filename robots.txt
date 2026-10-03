@@ -1,8 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /launch-dashboard/
-Disallow: /blog-workspace/
-Disallow: /social-content-creator/
 # Funnel landings (also noindex in HTML)
 Disallow: /go/
 
