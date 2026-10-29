@@ -1,10 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /launch-dashboard/
-Disallow: /blog-workspace/
-Disallow: /social-content-creator/
-# Funnel landings (also noindex in HTML)
-Disallow: /go/
+# Funnel landings /go/ stay crawlable so Google can read their noindex tag
 
 Sitemap: https://powerdesign.co.za/sitemap.xml
 Sitemap: https://powerdesign.co.za/sitemap-pages.xml

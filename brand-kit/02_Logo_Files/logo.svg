@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" role="img" aria-labelledby="title desc">
+  <title id="title">Power Designs Web</title>
+  <desc id="desc">The Power Designs Web circular P monogram and wordmark.</desc>
+  <g fill="none" stroke="#071A3D" stroke-width="8" stroke-linecap="square">
+    <path d="M48 103A45 45 0 1 1 72 103"/>
+  </g>
+  <path d="M48 96V27h23c17 0 29 10 29 26S88 79 71 79H60V66h11c9 0 15-4 15-13S80 40 71 40H62v56H48Z" fill="#071A3D"/>
+  <rect x="44" y="98" width="12" height="12" rx="1" fill="#FF5A55"/>
+  <g font-family="Arial,Helvetica,sans-serif">
+    <text x="132" y="67" fill="#071A3D" font-size="48" font-weight="700" letter-spacing="3">POWER</text>
+    <text x="135" y="98" fill="#4E5E78" font-size="18" font-weight="600" letter-spacing="9">DESIGNS WEB</text>
+  </g>
+</svg>

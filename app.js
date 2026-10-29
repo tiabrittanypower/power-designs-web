@@ -1,9 +1,16 @@
+if (typeof location !== "undefined" && /[?&]mockup=1(?:&|$)/.test(location.search)) {
+  document.documentElement.classList.add("mockup-preview");
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.classList.add("mockup-preview");
+  });
+}
+
 const SITE_CONFIG = {
   // Google Appointments removed — book via contact form / WhatsApp
   bookingUrl: "",
-  whatsappNumber: "0500504340",
+  whatsappNumber: document.documentElement.getAttribute("data-region") === "us" ? "" : "27500504340",
   enquiryEmail: "info@powerdesign.co.za",
-  // FormSubmit delivers to Gmail without Netlify Forms detection
+  // FormSubmit delivers to the business inbox without Netlify Forms detection
   formEndpoint: "https://formsubmit.co/ajax/info@powerdesign.co.za",
   // Optional analytics — only load when non-empty
   gaMeasurementId: "", // e.g. "G-XXXXXXXXXX"
@@ -14,7 +21,10 @@ const SITE_CONFIG = {
 /* Attribution (UTM + channel) — works WITHOUT GA                      */
 /* ------------------------------------------------------------------ */
 
-const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+// US pages are email-only: no WhatsApp wording in status messages.
+const IS_US = document.documentElement.getAttribute("data-region") === "us";
+
+const UTM_KEYS =["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 const EXTRA_PARAM_KEYS = ["channel", "ref", "gclid", "fbclid"];
 const FORM_ATTR_FIELDS = UTM_KEYS.concat([
   "channel",
@@ -385,7 +395,7 @@ let menuJustToggled = false;
 let menuScrollY = 0;
 
 function isMobileNav() {
-  return window.matchMedia("(max-width: 980px)").matches;
+  return window.matchMedia("(max-width: 1023px)").matches;
 }
 
 function setMenuOpen(open) {
@@ -464,7 +474,8 @@ document.querySelectorAll(".site-nav a[data-page]").forEach(link => {
   if (link.dataset.page === pageName) link.classList.add("active");
 });
 
-const rootPrefix = siteRootPrefix();
+// US pages live under /us/, so their "root" (contact page etc.) is one level below the site root.
+const rootPrefix = IS_US ? siteRootPrefix().replace(/^\.\.\//, "") : siteRootPrefix();
 
 // "Book a free call" → contact enquiry form (Google Appointments not in use)
 document.querySelectorAll("[data-booking]").forEach(link => {
@@ -574,10 +585,11 @@ if (enquiryForm) {
   }
 
   function whatsappFallbackLink() {
+    if (document.documentElement.getAttribute("data-region") === "us") return;
     const attr = getAttribution();
     const wa = SITE_CONFIG.whatsappNumber
       ? `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(attr))}`
-      : "https://wa.me/0500504340";
+      : "https://wa.me/27500504340";
     if (status && !status.querySelector("a.wa-fallback")) {
       status.appendChild(document.createElement("br"));
       const link = document.createElement("a");
@@ -625,7 +637,8 @@ if (enquiryForm) {
       // First-time FormSubmit setup: activation email sent to business inbox
       if (failFlag && /activat/i.test(msg)) {
         setStatus(
-          "Almost there: FormSubmit emailed info@powerdesign.co.za an “Activate Form” link. Open that email (check Spam), click Activate, then submit the form again. Until then, use WhatsApp 0500504340.",
+          "Almost there: FormSubmit emailed info@powerdesign.co.za an “Activate Form” link. Open that email (check Spam), click Activate, then submit the form again. Until then, " +
+            (IS_US ? "email us at info@powerdesign.co.za." : "use WhatsApp 050 050 4340."),
           "error"
         );
         whatsappFallbackLink();
@@ -643,7 +656,9 @@ if (enquiryForm) {
       trackLead(attr);
 
       setStatus(
-        "Thank you — your enquiry was sent to our inbox. We will reply as soon as possible. You can also WhatsApp 0500504340 or book a free call.",
+        IS_US
+          ? "Thank you — your enquiry was sent to our inbox. We will reply by email within one business day."
+          : "Thank you — your enquiry was sent to our inbox. We will reply as soon as possible. You can also WhatsApp 050 050 4340 or book a free call.",
         "success"
       );
       enquiryForm.reset();
@@ -652,14 +667,16 @@ if (enquiryForm) {
     } catch (error) {
       console.error(error);
       setStatus(
-        "We could not send the form just now. Please WhatsApp 0500504340 or email info@powerdesign.co.za.",
+        IS_US
+          ? "We could not send the form just now. Please email info@powerdesign.co.za."
+          : "We could not send the form just now. Please WhatsApp 050 050 4340 or email info@powerdesign.co.za.",
         "error"
       );
       whatsappFallbackLink();
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Send enquiry →";
+        submitBtn.textContent = IS_US ? "Send inquiry →" : "Send enquiry →";
       }
     }
   });
