@@ -8,6 +8,8 @@ What the brand looks like, in one folder. Source of truth for colours and fonts 
 - **Tagline:** Your business is real. Let's make it look the part.
 - **Contact:** WhatsApp +27 50 050 4340 · info@powerdesign.co.za · powerdesign.co.za
 
-Folders follow section 17 of the manual (01 to 11). Folders 04, 05, 08, 09, 10 and 11 are empty until templates, stationery, photos, print jobs, licences and archived versions exist.
+Week 1 social content (2 to 8 Nov 2026, draft, not posted) is in `06_Social_Media/week-01-2-8-nov-2026/`. Stationery and templates (quotation, invoice, business proposal, email signature) are in `05_Stationery_and_Documents/`. All drafts need Tia's approval.
+
+Folders follow section 17 of the manual (01 to 11). Folders 04, 08, 09, 10 and 11 are empty until templates, stationery, photos, print jobs, licences and archived versions exist.
 
 This folder is not served on the website: `.htaccess` blocks the `brand-kit` path.
