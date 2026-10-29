@@ -23,5 +23,5 @@ Web design studio for small businesses. Owner: Tia Power, Operations Manager. Li
 - assets/: logos used by the website.
 
 ## Known limits
-- Hostinger file uploads need srv2120-files.hstgr.io allowed in the environment network settings.
+- Hostinger file uploads work through the Hostinger connector (generate upload URL, then TUS upload to srv2120-files.hstgr.io). If the connector returns 503, retry later. Upload only new or approved files; never delete live folders.
 - Social accounts (Facebook, Instagram, WhatsApp, Meta Insights) cannot be reached from here.
