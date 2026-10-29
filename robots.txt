@@ -6,6 +6,6 @@ Disallow: /social-content-creator/
 # Funnel landings (also noindex in HTML)
 Disallow: /go/
 
-Sitemap: https://phenomenal-custard-9d5c9b.netlify.app/sitemap.xml
-Sitemap: https://phenomenal-custard-9d5c9b.netlify.app/sitemap-pages.xml
-Sitemap: https://phenomenal-custard-9d5c9b.netlify.app/sitemap.txt
+Sitemap: https://powerdesign.co.za/sitemap.xml
+Sitemap: https://powerdesign.co.za/sitemap-pages.xml
+Sitemap: https://powerdesign.co.za/sitemap.txt

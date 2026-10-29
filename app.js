@@ -2,9 +2,9 @@ const SITE_CONFIG = {
   // Google Appointments removed — book via contact form / WhatsApp
   bookingUrl: "",
   whatsappNumber: "0500504340",
-  enquiryEmail: "powerdesignsweb@gmail.com",
+  enquiryEmail: "info@powerdesign.co.za",
   // FormSubmit delivers to Gmail without Netlify Forms detection
-  formEndpoint: "https://formsubmit.co/ajax/powerdesignsweb@gmail.com",
+  formEndpoint: "https://formsubmit.co/ajax/info@powerdesign.co.za",
   // Optional analytics — only load when non-empty
   gaMeasurementId: "", // e.g. "G-XXXXXXXXXX"
   metaPixelId: "" // e.g. "123456789012345"
@@ -625,7 +625,7 @@ if (enquiryForm) {
       // First-time FormSubmit setup: activation email sent to business inbox
       if (failFlag && /activat/i.test(msg)) {
         setStatus(
-          "Almost there: FormSubmit emailed powerdesignsweb@gmail.com an “Activate Form” link. Open that email (check Spam), click Activate, then submit the form again. Until then, use WhatsApp 0500504340.",
+          "Almost there: FormSubmit emailed info@powerdesign.co.za an “Activate Form” link. Open that email (check Spam), click Activate, then submit the form again. Until then, use WhatsApp 0500504340.",
           "error"
         );
         whatsappFallbackLink();
@@ -652,7 +652,7 @@ if (enquiryForm) {
     } catch (error) {
       console.error(error);
       setStatus(
-        "We could not send the form just now. Please WhatsApp 0500504340 or email powerdesignsweb@gmail.com.",
+        "We could not send the form just now. Please WhatsApp 0500504340 or email info@powerdesign.co.za.",
         "error"
       );
       whatsappFallbackLink();
